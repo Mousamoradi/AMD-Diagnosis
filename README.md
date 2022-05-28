@@ -1,2 +1,4 @@
 ## AMD-Diagnosis
-Non-advanced AMD grades [G1,2,3] detection by deep ensemble learning
+Purpose: Developing an ensemble model to accurately predict AMD disease in very early stages.
+Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
+##1) 2D segmentation models: Residual Attention UNET, Regular UNET, RESNET34
