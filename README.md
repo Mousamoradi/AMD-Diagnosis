@@ -21,3 +21,6 @@ Methods: This project divided into two parts: 1) 2D segmentation and classificat
 ## The proposed deep majority soft voting ensemble model:
 
 ![image](https://user-images.githubusercontent.com/78983558/170849676-5cd4f183-999a-4abd-9f2c-0aaa91c3cb0f.png)
+
+## Rocommended System:
+Windows PC with> 128 GB RAM, GPU RTX 3090+ 24 GB onboard memory
