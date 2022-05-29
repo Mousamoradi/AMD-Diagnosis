@@ -1,0 +1,52 @@
+import tensorflow as tf
+from tensorflow.keras import models, layers, regularizers
+from tensorflow.keras import backend as K
+import os
+import cv2
+import numpy as np
+import random
+
+from matplotlib import pyplot as plt
+from patchify import patchify
+from PIL import Image
+import segmentation_models as sm
+from tensorflow.keras.metrics import MeanIoU
+
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+scaler = MinMaxScaler()
+# Loading original and ground truth Images
+image_directory='B:/Macular cube data/Mousa_python/CLAHE/dataset/contour/G1,2,3/org/'
+mask_directory='B:/Macular cube data/Mousa_python/CLAHE/dataset/contour/G1,2,3/gt/'
+img_list_tr = os.listdir(image_directory)
+msk_list_tr = os.listdir(mask_directory)
+def last_40chars(x):
+    return(x[-40:])
+
+img_list_tr=sorted(img_list_tr, key = last_40chars) 
+def last_40chars(x):
+    return(x[-40:])
+
+msk_list_tr=sorted(msk_list_tr, key = last_40chars) 
+# img_list_tr = os.listdir(image_directory)
+# msk_list_tr = os.listdir(mask_directory)
+
+num_images = len(os.listdir(image_directory))
+
+
+img_num = random.randint(0, num_images-1)
+
+img_for_plot = cv2.imread(image_directory+img_list_tr[img_num], 1)
+img_for_plot = cv2.cvtColor(img_for_plot, cv2.COLOR_BGR2RGB)
+
+mask_for_plot =cv2.imread(mask_directory+msk_list_tr[img_num], 1)
+print(img_list_tr[img_num])
+print(msk_list_tr[img_num])
+plt.figure(figsize=(12, 8))
+plt.subplot(121)
+plt.imshow(img_for_plot)
+plt.title('Image')
+plt.subplot(122)
+plt.imshow(mask_for_plot)
+plt.title('Mask')
+plt.show()
+
