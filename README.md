@@ -11,5 +11,9 @@ Methods: This project divided into two parts: 1) 2D segmentation and classificat
 
 
    1-1) 2D classifiers: DenseNet121, EfficientNetB3, VGG16
+   
+   ![image](https://user-images.githubusercontent.com/78983558/170849649-e42c300d-e0fc-4a7a-9aed-2ecde02bd673.png)
+
 2) 3D classification
 
+![image](https://user-images.githubusercontent.com/78983558/170849636-46c76118-d894-49d7-8663-e77b5e74ee21.png)
