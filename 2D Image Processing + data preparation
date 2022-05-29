@@ -1,4 +1,6 @@
 # Mousa Moradi_ Ph.D. student in biomedical engineerin, UMASS AMHERST, UMASS MEDICAL SCHOOL WORCESTER
+# Department of Ophthalmology and Visual Sciences, UMASS CHAN MEDICAL SCHOOL, WORCESTER, MA, USA
+# For redistribution and sharing: mousamoradi@umass.edu
 #
 # Image Processing and data preparation: Contrast Limited Adaptive Histogram Equalization (CLAHE)+ Canny edge detection and contour detection for retinal layer extraction
 # What version of Python?
