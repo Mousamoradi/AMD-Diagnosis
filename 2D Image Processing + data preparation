@@ -152,28 +152,105 @@ def enh_img():
         cv2.imwrite(os.path.join('B:/Macular cube data/Mousa_python/CLAHE/dataset/contour/G3/gt', name_gt + str(i) + '.png'), mask)
 enh_img()
 
-# # Splitting into 4 sets
+# Loading the enhanced original and mask Images
+image_directory='B:/Macular cube data/Mousa_python/CLAHE/dataset/contour/G3/org/'
+mask_directory='B:/Macular cube data/Mousa_python/CLAHE/dataset/contour/G3/gt/'
+# Split each image and ground truth to 66 patches
+patch_size = 256
 
-def split_img():
-    j=0
-    for i in tqdm(range(len(df))):
-        imgfile_org=df['train'].iloc[i]
-        imgfile_gt=df['ground_truth'].iloc[i]
-        name_org = os.path.basename(imgfile_org)
-        name_gt = os.path.basename(imgfile_gt)
+image_dataset = []  #Many ways to handle data, you can use pandas. Here, we are using a list format.  
+
+images = os.listdir(image_directory)
+for i, image_name in enumerate(images):    #Remember enumerate method adds a counter and returns the enumerate object
+     if image_name.endswith(".jpg"):   #Only read jpg images...
+        print(image_directory+image_name)
+        image = cv2.imread(image_directory+image_name)
+        SIZE_X = (image.shape[1]//patch_size)*patch_size #Nearest size divisible by our patch size
+        SIZE_Y = (image.shape[0]//patch_size)*patch_size #Nearest size divisible by our patch size
+            
+        image = Image.fromarray(image)
+        image = image.crop((0 ,0, SIZE_X, SIZE_Y))  #Crop from top left corner
+        image = np.array(image)             
+
+#Extract patches from each image
+        #print("Now patchifying image:", image_directory+image_name)
+        patches_img = patchify(image, (patch_size, patch_size, 3), step=patch_size)  #Step=256 for 256 patches means no overlap
+        for i in range(patches_img.shape[0]):
+            for j in range(patches_img.shape[1]):
+                        
+                single_patch_img = patches_img[i,j,:,:]
+                #Use minmaxscaler instead of just dividing by 255. 
+                # single_patch_img = scaler.fit_transform(single_patch_img.reshape(-1, single_patch_img.shape[-1])).reshape(single_patch_img.shape)
+                        
+                #single_patch_img = (single_patch_img.astype('float32')) / 255. 
+                single_patch_img = single_patch_img[0] #Drop the extra unecessary dimension that patchify adds.   
+                cv2.imwrite(os.path.join('B:/Macular cube data/Mousa_python/CLAHE/dataset/256_patches/G3/images', 
+                                         image_name + "_patch_" + str(i) + str(j) + ".jpg"), single_patch_img)
+                # image_dataset.append(single_patch_img)
+
+patch_size = 256
+
+mask_dataset = []  #Place holders to define add labels. We will add 0 to all parasitized images and 1 to uninfected.
+
+masks = os.listdir(mask_directory)
+for i, mask_name in enumerate(masks):    #Remember enumerate method adds a counter and returns the enumerate object
+     if mask_name.endswith(".png"):   #Only read jpg images...
+        #print(image_directory+image_name)
+        mask = cv2.imread(mask_directory+mask_name,1)
+        mask = cv2.cvtColor(mask,cv2.COLOR_BGR2RGB)
+        SIZE_X = (mask.shape[1]//patch_size)*patch_size #Nearest size divisible by our patch size
+        SIZE_Y = (mask.shape[0]//patch_size)*patch_size #Nearest size divisible by our patch size
+            
+        mask = Image.fromarray(mask)
+        mask = mask.crop((0 ,0, SIZE_X, SIZE_Y))  #Crop from top left corner
+        mask = np.array(mask)             
+
+#Extract patches from each image
+        print("Now patchifying image:", mask_directory+mask_name)
+        patches_mask = patchify(mask, (patch_size, patch_size, 3), step=patch_size)  #Step=256 for 256 patches means no overlap
         
-        img = cv2.imread(imgfile_org)
-        mask = cv2.imread(imgfile_gt)
+        for i in range(patches_mask.shape[0]):
+            for j in range(patches_mask.shape[1]):
+                        
+                single_patch_mask = patches_mask[i,j,:,:]
+                single_patch_mask = single_patch_mask[0] 
+                cv2.imwrite(os.path.join('B:/Macular cube data/Mousa_python/CLAHE/dataset/256_patches/G3/masks', 
+                                         mask_name + "_patch_" + str(i) + str(j) + ".png"), single_patch_mask)
+                # mask_dataset.append(single_patch_mask)
+# Loading patches
+patches_image='B:/Macular cube data/Mousa_python/CLAHE/dataset/256_patches/G3/images/'
+patches_mask='B:/Macular cube data/Mousa_python/CLAHE/dataset/256_patches/G3/masks/'     
+
+#Now, let us copy images and masks with real information to a new folder.
+# real information = if mask has decent amount of labels other than 0. 
+
+useless=0  #Useless image counter
+for img in range(len(img_list)):   #Using t1_list as all lists are of same size
+    img_name=img_list[img]
+    mask_name = msk_list[img]
+    print("Now preparing image and masks number: ", img)
+      
+    temp_image=cv2.imread(patches_image+img_list[img], 1)
+   
+    temp_mask=cv2.imread(patches_mask+msk_list[img], 1)
+    #temp_mask=temp_mask.astype(np.uint8)
+    
+    val, counts = np.unique(temp_mask, return_counts=True)
+    
+
+    if (1 - (counts[0]/counts.sum())) > 0.05:  #At least 5% useful area with labels that are not 0
+        print("Save Me")
+        cv2.imwrite('B:/Macular cube data/Mousa_python/noCLAHE/dataset/256_patches/G3/images_with _useful_info/images/'+img_name, temp_image)
+        cv2.imwrite('B:/Macular cube data/Mousa_python/noCLAHE/dataset/256_patches/G3/images_with _useful_info/masks/'+mask_name, temp_mask)
         
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        height,width= gray.shape
-        CROP_W_SIZE=4
-        for iw in range(CROP_W_SIZE ):
-            x = width // CROP_W_SIZE*iw
-            w = (width //CROP_W_SIZE )
-            t1 = gray[:, x:x+256]
-            m1= mask[:, x:x+256]
-            cv2.imwrite(os.path.join('B:/Macular cube data/Mousa_python/CLAHE/split/org', name_org + str(iw) + '.jpg'), t1)
-            cv2.imwrite(os.path.join('B:/Macular cube data/Mousa_python/CLAHE/split/gt' ,name_gt + str(iw) + '.jpg'), m1)
-            j=j+1
-split_img()
+    else:
+        print("I am useless")  
+        useless +=1
+
+print("Total useful images are: ", len(img_list)-useless)  #20,075
+print("Total useless images are: ", useless) #21,571
+
+
+
+
+
