@@ -1,4 +1,6 @@
 ##### Mousa Moradi_ Ph.D. student, biomedical engineering UMASS AMHESRT, UMASS MEDICAL SCHOOL WORCESTER
+# Department of Ophthalmology and Visual Sciences, UMASS CHAN MEDICAL SCHOOL, WORCESTER, MA, USA
+# For redistribution and sharing: mousamoradi@umass.edu
 ## Prepare 3D data + Image processing
 from skimage import io
 from patchify import patchify, unpatchify
