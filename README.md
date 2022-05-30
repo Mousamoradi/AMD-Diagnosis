@@ -25,7 +25,10 @@ Methods: This project divided into two parts: 1) 2D segmentation and classificat
 ## Rocommended System:
 - Windows PC with> 128 GB RAM, GPU RTX 3090+ 24 GB onboard memory
 - Spyder 5.1.5, Python 3.8.8 (default, Apr 13 2021, 15:08:03) [MSC v.1916 64 bit (AMD64)]
-- Modules and libraries: TensorFlow, Keras, Patchify, OpenCV> 4.4, Pillow, Matplot lib, glob
+- Modules and libraries: TensorFlow 2.5.2, CUDA v11.4.0,cuDNN v8.3.1, Keras 2.5.0, Patchify, OpenCV> 4.4, Pillow, Matplot lib, glob
+
+
+Keras Version: 2.5.0
 
 ## Instruction:
 - 2D models training/validation/testing:
