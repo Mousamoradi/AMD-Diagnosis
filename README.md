@@ -1,5 +1,5 @@
 ## AMD-Diagnosis
-Purpose: Developing an ensemble model to accurately predict Age-related macular degeneration (AMD) disease in very early stages.
+Purpose: Developing an ensemble model to accurately predict Age-related Macular Degeneration (AMD) disease in very early stages.
 
 Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
