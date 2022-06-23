@@ -3,7 +3,7 @@ Purpose: Developing an ensemble model to accurately predict Age-related Macular 
 
 Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
-![image](https://user-images.githubusercontent.com/78983558/173388482-1e933fa9-5eff-4910-938d-34bf21d3d021.png)
+![image](https://user-images.githubusercontent.com/78983558/175354387-87449555-41ba-4023-8429-75ee1c6f99fa.png)
 
 
 1) 2D segmentation models: Residual Attention UNET, Regular UNET, RESNET34
