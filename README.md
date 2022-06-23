@@ -1,8 +1,8 @@
 ## AMD-Diagnosis
-Purpose: Developing an ensemble model to accurately predict Age-related Macular Degeneration (AMD) disease in very early stages.
-Contribution: Modified 11 retinal-layers segmentation based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
+- Purpose: Developing an ensemble model to accurately predict Age-related Macular Degeneration (AMD) disease in very early stages.
+- Contribution: Modified 11 retinal-layers segmentation based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
 
-Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
+- Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
 ![image](https://user-images.githubusercontent.com/78983558/175354387-87449555-41ba-4023-8429-75ee1c6f99fa.png)
 
