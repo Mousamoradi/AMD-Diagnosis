@@ -40,3 +40,10 @@ def get_model(width=256, height=64, depth=256):
 # Build model.
 model = get_model(width=256, height=64, depth=256)
 model.summary()
+
+## Plot the model
+from IPython.display import SVG
+from tensorflow.keras.utils import model_to_dot, plot_model
+
+SVG(model_to_dot(model).create(prog='dot', format='svg'))
+plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True, expand_nested=True)
