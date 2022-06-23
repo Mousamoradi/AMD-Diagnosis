@@ -17,8 +17,7 @@ Methods: This project divided into two parts: 1) 2D segmentation and classificat
 
 2) 3D classification
 
-![image](https://user-images.githubusercontent.com/78983558/173388713-d6ccc05c-59dd-430d-a19d-99d3300d97c3.png)
-
+![image](https://user-images.githubusercontent.com/78983558/175359074-cc1fe40f-8570-42e8-82fa-97a26593015e.png)
 
 ## The proposed deep majority soft voting ensemble model:
 
