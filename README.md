@@ -1,22 +1,23 @@
 ## AMD-Diagnosis
 - Purpose: Developing an ensemble model to accurately predict Age-related Macular Degeneration (AMD) disease in very early stages.
-- Contribution: Modified 11 retinal-layers segmentation based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
+- Contribution: Modified 11 retinal-boundaries segmentated by OCT EXplorer [1] based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
 
 - Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
 ![image](https://user-images.githubusercontent.com/78983558/175354387-87449555-41ba-4023-8429-75ee1c6f99fa.png)
 
 
-1) 2D segmentation models: Residual Attention UNET, Regular UNET, RESNET34
+1) 2D Segmentation Models: Residual Attention UNET [2], Regular UNET, RESNET34
 
 ![image](https://user-images.githubusercontent.com/78983558/173388606-73ff8358-a5b9-40cf-bc32-d3cea0f1371d.png)
 
 
-   1-1) 2D classifiers: DenseNet121, EfficientNetB3, VGG16
+   1-1) 2D Classifiers: DenseNet121, EfficientNetB3, VGG16
+   - Ensemble stacking method [3] was used to augment the classifier. 
    
    ![image](https://user-images.githubusercontent.com/78983558/170849649-e42c300d-e0fc-4a7a-9aed-2ecde02bd673.png)
 
-2) 3D classification
+2) 3D Classification
 
 ![image](https://user-images.githubusercontent.com/78983558/175359074-cc1fe40f-8570-42e8-82fa-97a26593015e.png)
 
@@ -36,3 +37,9 @@
 - 3D models training/validation/testing:
 1- Run 3D image processing and data preparation code (contrast enhancement with CLAHE + data augmentation + Contour detection and patchify)
 2- feed prepared cude data into 3D CNN model. 
+
+
+## References
+[1] K. Lee, M.D.A., M. Garvin, M. Sonka, and X. Wu. “Iowa reference algorithm – OCTExplorer”. 2020; Available from: https://www.iibi.uiowa.edu/oct-reference.
+[2] Moradi, M., X. Du, T. Huan, and Y. Chen, Feasibility of the soft attention-based models for automatic segmentation of OCT kidney images. Biomedical Optics Express, 2022. 13(5): p. 2728-2738.
+[3] Huan, T., Y. Chen, X. Du, and J. Seddon, Ensemble learning for AMD prediction using retina OCT scans. Investigative Ophthalmology & Visual Science, 2022. 63(7): p. 732–F0460-732–F0460.
