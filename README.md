@@ -1,6 +1,6 @@
 ## AMD-Diagnosis
 - Purpose: Developing an ensemble model to accurately predict Age-related Macular Degeneration (AMD) disease in very early stages.
-- Contribution: Modified 11 retinal-boundaries segmentated by OCT EXplorer [1] based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
+- Contribution: 11 retinal-boundaries initially segmentated by OCT EXplorer [1] were modified based on cubic spline and directional graph theory to have accurate ground truth and feature extraction
 
 - Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
