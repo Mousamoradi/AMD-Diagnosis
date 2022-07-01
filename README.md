@@ -4,8 +4,7 @@
 
 - Methods: This project divided into two parts: 1) 2D segmentation and classification, 2) 3D classification
 
-![image](https://user-images.githubusercontent.com/78983558/175354387-87449555-41ba-4023-8429-75ee1c6f99fa.png)
-
+![image](https://user-images.githubusercontent.com/78983558/176928505-249c7153-4af9-4164-bcd9-c3b67f845303.png)
 
 1) 2D Segmentation Models: Residual Attention UNET [2], Regular UNET, RESNET34
 
