@@ -28,9 +28,10 @@
 - Windows PC with> 128 GB RAM, GPU RTX 3090+ 24 GB onboard memory
 - Spyder 5.1.5, Python 3.8.8 (default, Apr 13 2021, 15:08:03) [MSC v.1916 64 bit (AMD64)]
 - Modules and libraries: TensorFlow 2.5.2, CUDA v11.4.0,cuDNN v8.3.1, Keras 2.5.0, Patchify, OpenCV> 4.4, Pillow, Matplot lib, glob, Keras Version: 2.5.0
+- MATLAB >= R2021a with image processing toolbox. 
 
 ## Instruction:
-- Feature Extraction: Needs MATLAB >= R2021a. This code extracts 169 OCT imaging features in each retinal scan. 
+- Feature Extraction: This code extracts 169 OCT imaging features in each retinal scan. 
 - 2D models training/validation/testing:
 1- Run 2D image processing and data preparation code (contrast enhancement with CLAHE + data augmentation + Contour detection and patchify)
 2- feed prepared images (and ground truth) into segmentation and classification models
