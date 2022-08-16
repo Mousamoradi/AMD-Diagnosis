@@ -1,0 +1,378 @@
+%% 11 retinal layers feature extraction
+% Created by: Mousa Moradi, Ph.D. student UMASS AMHERST
+% Updated 03/09/2022
+%%
+close all;clear all;clc;
+%% Initialize parameters for feature extraction step
+mean_th=zeros(1,6);
+std_th=zeros(1,6);
+A=zeros(1,6);
+TR_mean=zeros(1,1);
+TR_std=zeros(1,1);
+NSR_mean=zeros(1,1);
+NSR_std=zeros(1,1);
+Fovea_TR_mean=zeros(1,1);
+Fovea_TR_std=zeros(1,1);
+Fovea_NSR_mean=zeros(1,1);
+Fovea_NSR_std=zeros(1,1);
+lbp=zeros(1,59);
+%%
+imagefiles = dir('B:\Macular cube data\allinone_g3\cube_all\Ann\same size 1\*.tif');
+nfiles = length(imagefiles);    % Number of files found
+for k=1:nfiles
+    currentfilename = imagefiles(k).name;
+    currentimage = imread(currentfilename);
+    imagePath= [imagefiles(k).folder ,imagefiles(k).name];
+    img = currentimage;
+    
+% img(:,:,4) = [];
+% [m,n,ch]=size(img);
+% 
+% imagesc(img)
+% axis off;
+% img=imread('0000_25_2010_07.09_OS.tif');
+% axis image; colormap('gray');
+R = img(:,:,1);
+G = img(:,:,2);
+B = img(:,:,3);
+[y_lim,len]=size(R);
+%51
+match1=   R == 255 & G == 51  & B == 0;
+match2=   R == 255 & G == 204 & B == 0;
+match3=   R == 204 & G == 255 & B == 0;
+match4=   R == 51  & G == 255 & B == 0;
+match5=   R == 0   & G == 255 & B == 128;
+match6=   R == 0   & G == 255 & B == 255;
+match7=   R == 0   & G == 128 & B == 255;
+match8=   R == 51  & G == 0   & B == 255;
+match9=   R == 204 & G == 0   & B == 255;
+match10=  R == 255 & G == 0   & B == 204;
+match11=  R == 255 & G == 128 & B == 0;
+%match12=  R==204 & G==204 & B==153;
+
+[x1, y1] = find(match1);
+% x1=smoothdata(x1(1:end),'gaussian',20);
+[x2, y2] = find(match2);
+% x2=smoothdata(x2(1:end),'gaussian',20);
+[x3, y3] = find(match3);
+% x3=smoothdata(x3(1:end),'gaussian',20);
+[x4, y4] = find(match4);
+% x4=smoothdata(x4(1:end),'gaussian',20);
+[x5, y5] = find(match5);
+% x5=smoothdata(x5(1:end),'gaussian',20);
+[x6, y6] = find(match6);
+% x6=smoothdata(x6(1:end),'gaussian',20);
+[x7, y7] = find(match7);
+% x7=smoothdata(x7(1:end),'gaussian',20);
+[x8, y8] = find(match8);
+% x8=smoothdata(x8(1:end),'gaussian',20);
+[x9, y9] = find(match9);
+% x9=smoothdata(x9(1:end),'gaussian',20);
+[x10, y10] = find(match10);
+% x10=smoothdata(x10(1:end),'gaussian',20);
+[x11, y11] = find(match11);
+%[x12, y12] = find(match12);
+
+% Get coefficients of a line fit through the data.
+coef1 = polyfit(y1, x1, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x1Fit = linspace(min(y1), max(y1), len);
+x1Fit=x1Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y1Fit = polyval(coef1 , x1Fit);
+
+coef2 = polyfit(y2, x2, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x2Fit = linspace(min(y2), max(y2), len);
+x2Fit=x2Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y2Fit = polyval(coef2 , x2Fit);
+
+coef3 = polyfit(y3, x3, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x3Fit = linspace(min(y3), max(y3), len);
+x3Fit=x3Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y3Fit = polyval(coef3 , x3Fit);
+
+coef4 = polyfit(y4, x4, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x4Fit = linspace(min(y4), max(y4), len);
+x4Fit=x4Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y4Fit = polyval(coef4 , x4Fit);
+
+coef5 = polyfit(y5, x5, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x5Fit = linspace(min(y5), max(y5), len);
+x5Fit=x5Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y5Fit = polyval(coef5 , x5Fit);
+
+coef6 = polyfit(y6, x6, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x6Fit = linspace(min(y6), max(y6), len);
+x6Fit=x6Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y6Fit = polyval(coef6 , x6Fit);
+
+coef7 = polyfit(y7, x7, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x7Fit = linspace(min(y7), max(y7), len);
+x7Fit=x7Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y7Fit = polyval(coef7 , x7Fit);
+
+coef8 = polyfit(y8, x8, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x8Fit = linspace(min(y8), max(y8), len);
+x8Fit=x8Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y8Fit = polyval(coef8 , x8Fit);
+
+coef9 = polyfit(y9, x9, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x9Fit = linspace(min(y9), max(y9), len);
+x9Fit=x9Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y9Fit = polyval(coef9 , x9Fit);
+
+coef10 = polyfit(y10, x10, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x10Fit = linspace(min(y10), max(y10), len);
+x10Fit=x10Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y10Fit = polyval(coef10 , x10Fit);
+
+coef11 = polyfit(y11, x11, 20);
+% Create a new x axis with exactly 1000 points (or whatever you want).
+x11Fit = linspace(min(y11), max(y11), len);
+x11Fit=x11Fit';
+% Get the estimated yFit value for each of those 1000 new x locations.
+y11Fit = polyval(coef11 , x11Fit);
+
+% coef12 = polyfit(y12, x12, 20);
+% % Create a new x axis with exactly 1000 points (or whatever you want).
+% x12Fit = linspace(min(y12), max(y12), len);
+% x12Fit=x12Fit';
+% % Get the estimated yFit value for each of those 1000 new x locations.
+% y12Fit = polyval(coef12 , x12Fit);
+
+figure('units','normalized','outerposition',[0 0 1 1])
+
+plot(y1Fit);hold on;plot(y2Fit);hold on;plot(y3Fit);hold on;plot(y4Fit);hold on;
+plot(y5Fit);hold on;plot(y6Fit);hold on;plot(y7Fit);hold on;plot(y8Fit);hold on;
+plot(y9Fit);hold on;plot(y10Fit);hold on;plot(y11Fit);hold on;axis tight;
+set ( gca, 'ydir', 'reverse' )
+ylim([0 y_lim])
+%  xlim([0 1600])
+set(gca,'Color','k')
+
+x={y1Fit' y2Fit' y3Fit' y4Fit' y5Fit' y6Fit' y7Fit' y8Fit' y9Fit' y10Fit' y11Fit'};
+ %   y12Fit'};
+% Fovea detection
+ilm_x=x{1};
+rpe_x= x{11};
+L=length(ilm_x);
+%fovea_x=median(find(ilm_x==max(ilm_x(1080:1908)))); for ground truth size
+fovea_x=median(find(ilm_x==max(ilm_x(950:2150))));
+if fovea_x<950
+   fovea_x=median(find(ilm_x(950:0.8*L)==max(ilm_x(714:2231))));
+   fovea_x=round(fovea_x+950)
+elseif fovea_x>2150
+    fovea_x=median(find(ilm_x(2150:0.8*L)==max(ilm_x(714:2231))));
+    fovea_x=round(fovea_x+2150)
+else
+    fovea_x=L/2;
+end
+fovea_x=round(fovea_x)
+if fovea_x+1363>L
+    fovea_end=L;
+else
+    fovea_end=fovea_x+1363 %1363 px~2.75 mm away from fovea
+end
+if fovea_x-1363<1
+    fovea_st=1;
+else
+    fovea_st=fovea_x-1363
+end
+% find points on left/right side of each layer to get fovea distances.
+% 5.5 mm around fovea considered to exclude peripapillary atrophy from the
+% analysis (image resolution=6 mm/2975 px=2.0168 um/px)....1363px(2.75 mm each
+% feavea side)
+Xl=[fovea_x ilm_x(fovea_x);fovea_st ilm_x(fovea_st);fovea_st rpe_x(fovea_st)];
+Xr=[fovea_x ilm_x(fovea_x);fovea_end ilm_x(fovea_end);fovea_end rpe_x(fovea_end)];
+% feature list
+excel={};
+excel = [excel; {'Mean_ilm-rnfl' 'Mean_rnfl-gcl' 'Mean_gcl-ipl' 'Mean_ipl-inl' 'Mean_inl-oplhfl' 'Mean_oplhfl-bmeis' ...
+    'Mean_bmeis-isos' 'Mean_isos-ibopr' 'Mean_ibopr-ibrpe' 'Mean_ibrpe-obrpe' ...
+    'STD_ilm-rnfl' 'STD_rnfl-gcl' 'STD_gcl-ipl' 'STD_ipl-inl' 'STD_inl-oplhfl' 'STD_oplhfl-bmeis' ...
+    'STD_bmeis-isos' 'STD_isos-ibopr' 'STD_ibopr-ibrpe' 'STD_ibrpe-obrpe' ...
+    'Area_ilm-rnfl' 'Area_rnfl-gcl' 'Area_gcl-ipl' 'Area_ipl-inl' 'Area_inl-oplhfl' 'Area_oplhfl-bmeis' ...
+    'Area_bmeis-isos' 'Area_isos-ibopr' 'Area_ibopr-ibrpe' 'Area_ibrpe-obrpe' 'Drusen' 'PseudoDrusen' ...
+    'TR_mean' 'TR_std' 'NSR_mean' 'NSR_std' 'TR_fovea_mean_25' 'TR_fovea_mean_50' 'TR_fovea_mean_75' 'TR_fovea_mean_100' ...
+    'TR_fovea_std_25' 'TR_fovea_std_50' 'TR_fovea_std_75' 'TR_fovea_std_100' 'NSR_fovea-mean_25' 'NSR_fovea-mean_50' ...
+    'NSR_fovea-mean_75' 'NSR_fovea-mean_100' 'NSR_fovea-std_25' 'NSR_fovea-std_50' 'NSR_fovea-std_75' 'NSR_fovea-std_100' 'Iilm_mean' ...  
+    'Iilm_var' 'rnfl_mean' 'rnfl_var' 'gcl_mean' 'gcl_var' 'ipl_mean' 'ipl_var' 'inl_mean' 'inl_var'... 
+    'oplhfl_mean' 'oplhfl_var' 'bmeis_mean' 'bmeis_var' 'isos_mean' 'isos_var' 'ibopr_mean' 'ibopr_var'... 
+    'ibrpe_mean' 'ibrpe_var' 'obrpe_mean' 'obrpe_var' 'S_ilm' 'S_rnfl' 'S_gcl' 'S_ipl' 'S_inl' 'S_oplhfl'... 
+    'S_bmeis' 'S_isos' 'S_ibopr' 'S_ibrpe' 'S_obrpe' 'K_ilm' 'K_rnfl' 'K_gcl' 'K_ipl' 'K_inl' 'K_oplhfl'... 
+    'K_bmeis' 'K_isos' 'K_ibopr' 'K_ibrpe' 'K_obrpe' 'E_img' 'mag_mean' 'mag_var' 'phase_mean' 'phase_var' 'Curvature_mean_bmeis' 'Radius_bmeis' 'lbp1'}];
+
+for i = 2:numel(x)
+    firstLayer = x{i-1};
+    secondLayer = x{i};
+    
+% Extract thickness of 10 layer differences:
+          mean_th(k,i-1)=(nanmean(secondLayer(fovea_st:fovea_end)-firstLayer(fovea_st:fovea_end)));
+          std_th(k,i-1)=nanstd(secondLayer(fovea_st:fovea_end)-firstLayer(fovea_st:fovea_end));
+          A(k,i-1)=abs(trapz(secondLayer(fovea_st:fovea_end),firstLayer(fovea_st:fovea_end))); 
+end
+
+drusen(k,1)= abs((nanmean(x{11}(fovea_st:fovea_end)-x{9}(fovea_st:fovea_end))));
+Pdrusen(k,1)= abs((nanmean(x{9}(fovea_st:fovea_end)-x{7}(fovea_st:fovea_end))));
+
+
+dis_tr=length(fovea_st:fovea_x);
+dis_ns=length(fovea_x:fovea_end);
+d=fovea_st:fovea_x;
+ 
+%  TR_th_toplot=boxplot((layerCompile(7).x(fovea_st:fovea_x))-(layerCompile(1).x(fovea_st:fovea_x)));
+ TR_mean(k,1)=nanmean(x{11}(fovea_st:fovea_end)-x{1}(fovea_st:fovea_end));
+ TR_std(k,1)=nanstd(x{11}(fovea_st:fovea_end)-x{1}(fovea_st:fovea_end));
+ NSR_mean(k,1)=nanmean(x{9}(fovea_st:fovea_end)-x{1}(fovea_st:fovea_end));
+ NSR_std(k,1)=nanstd(x{9}(fovea_st:fovea_end)-x{1}(fovea_st:fovea_end));
+ for e=2:5
+       TR_fovea_mean(k,e-1)=nanmean((x{11}((e-1)*0.25*dis_tr:e*0.25*dis_tr))-(x{1}((e-1)*0.25*dis_tr:e*0.25*dis_tr)));
+       TR_fovea_std(k,e-1)=nanstd((x{11}((e-1)*0.25*dis_tr:e*0.25*dis_tr))-(x{1}((e-1)*0.25*dis_tr:e*0.25*dis_tr)));
+       NSR_fovea_mean(k,e-1)=nanmean((x{9}((e+2)*0.25*dis_ns:(e+3)*0.25*dis_ns))-(x{1}((e+2)*0.25*dis_ns:(e+3)*0.25*dis_ns)));
+       NSR_fovea_std(k,e-1)=nanstd((x{9}((e+2)*0.25*dis_ns:(e+3)*0.25*dis_ns))-(x{1}((e+2)*0.25*dis_ns:(e+3)*0.25*dis_ns)));
+       xd_tr(k,e-1)=(e-1)*0.25*dis_tr.*0.0075; 
+       xd_ns(k,e-1)=(e+2)*0.25*dis_ns.*0.0075; 
+
+ end
+ 
+ % Texture features
+ lbpFeatures = extractLBPFeatures(img(round(x{1}:x{11}),:),'CellSize',[32 32],'Normalization','None'); 
+ numNeighbors = 8;
+ numBins = numNeighbors*(numNeighbors-1)+3;
+ lbpCellHists = reshape(lbpFeatures,numBins,[]);
+ lbpCellHists = bsxfun(@rdivide,lbpCellHists,sum(lbpCellHists));
+ lbp(k,:)=nanmean(lbpCellHists');
+ 
+ Iiilm_mean(k,1)=mean(x{1}(fovea_st:fovea_end)); %intensity profile for each layer
+ Iiilm_var(k,1)=var(x{1}(fovea_st:fovea_end));
+ Irnfl_mean(k,1)=mean(x{2}(fovea_st:fovea_end));
+ Irnfl_var(k,1)=var(x{2}(fovea_st:fovea_end));
+ Igcl_mean(k,1)=mean(x{3}(fovea_st:fovea_end));
+ Igcl_var(k,1)=var(x{3}(fovea_st:fovea_end));
+ Iipl_mean(k,1)=mean(x{4}(fovea_st:fovea_end));
+ Iipl_var(k,1)=var(x{4}(fovea_st:fovea_end));
+ Iinl_mean(k,1)=mean(x{5}(fovea_st:fovea_end));
+ Iinl_var(k,1)=var(x{5}(fovea_st:fovea_end));
+ Ioplhfl_mean(k,1)=mean(x{6}(fovea_st:fovea_end));
+ Ioplhfl_var(k,1)=var(x{6}(fovea_st:fovea_end));
+ Ibmeis_mean(k,1)=mean(x{7}(fovea_st:fovea_end));
+ Ibmeis_var(k,1)=var(x{7}(fovea_st:fovea_end));
+ Iisos_mean(k,1)=mean(x{8}(fovea_st:fovea_end));
+ Iisos_var(k,1)=var(x{8}(fovea_st:fovea_end));
+ Iibopr_mean(k,1)=mean(x{9}(fovea_st:fovea_end));
+ Iibopr_var(k,1)=var(x{9}(fovea_st:fovea_end));
+ Iibrpe_mean(k,1)=mean(x{10}(fovea_st:fovea_end));
+ Iibrpe_var(k,1)=var(x{10}(fovea_st:fovea_end));
+ Iobrpe_mean(k,1)=mean(x{11}(fovea_st:fovea_end));
+ Iobrpe_var(k,1)=var(x{11}(fovea_st:fovea_end));
+ %Ibruchs_mean(k,1)=var(x{12}(fovea_st:fovea_end));
+% Ibruchs_var(k,1)=var(x{12}(fovea_st:fovea_end));
+
+ S_ilm(k,1)=skewness(x{1}(fovea_st:fovea_end)); %Skewness 
+ S_rnfl(k,1)=skewness(x{2}(fovea_st:fovea_end)); 
+ S_gcl(k,1)=skewness(x{3}(fovea_st:fovea_end));
+ S_ipl(k,1)=skewness(x{4}(fovea_st:fovea_end));
+ S_inl(k,1)=skewness(x{5}(fovea_st:fovea_end));
+ S_oplhfl(k,1)=skewness(x{6}(fovea_st:fovea_end));
+ S_bmeis(k,1)=skewness(x{7}(fovea_st:fovea_end));
+ S_isos(k,1)=skewness(x{8}(fovea_st:fovea_end));
+ S_ibopr(k,1)=skewness(x{9}(fovea_st:fovea_end));
+ S_ibrpe(k,1)=skewness(x{10}(fovea_st:fovea_end));
+ S_obrpe(k,1)=skewness(x{11}(fovea_st:fovea_end));
+ %S_bruchs(k,1)=skewness(x{12}(fovea_st:fovea_end));
+
+ 
+ 
+ K_ilm(k,1)=kurtosis(x{1}(fovea_st:fovea_end)); %kurtosis
+ K_rnfl(k,1)=kurtosis(x{2}(fovea_st:fovea_end)); 
+ K_gcl(k,1)=kurtosis(x{3}(fovea_st:fovea_end));
+ K_ipl(k,1)=kurtosis(x{4}(fovea_st:fovea_end));
+ K_inl(k,1)=kurtosis(x{5}(fovea_st:fovea_end));
+ K_oplhfl(k,1)=kurtosis(x{6}(fovea_st:fovea_end));
+ K_bmeis(k,1)=kurtosis(x{7}(fovea_st:fovea_end));
+ K_isos(k,1)=kurtosis(x{8}(fovea_st:fovea_end));
+ K_ibopr(k,1)=kurtosis(x{9}(fovea_st:fovea_end));
+ K_ibrpe(k,1)=kurtosis(x{10}(fovea_st:fovea_end));
+ K_obrpe(k,1)=kurtosis(x{11}(fovea_st:fovea_end));
+% K_bruchs(k,1)=kurtosis(x{12}(fovea_st:fovea_end));
+
+ E_img(k,1)=entropy(img);
+ fft_result=fft2(x{11}(fovea_st:fovea_end)); %magnitude and phase of rpe                 
+ mag_mean(k,1)=mean(abs(fft_result));  
+ mag_var(k,1)=var(abs(fft_result));
+ phase_mean(k,1)=mean(angle(fft_result));
+ phase_var(k,1)=var(angle(fft_result));
+%curvature and arc length for drusen (bmeis layer)
+% dx = gradient(x{7});
+% ddx = gradient(dx);
+% dy = gradient(1:2975);
+% ddy = gradient(dy);
+% num = dx .* ddy - ddx .* dy;
+% denom = dx .* dx + dy .* dy;
+% denom = sqrt(denom);
+% denom = denom .* denom .* denom;
+% curvatur = num ./ denom;
+% curvature(denom < 0) = NaN;
+% curv(k,1)=mean(curvatur);
+% 
+% n = numel(x{7});
+% y=1:n;
+% length_bmeis = 0.0;
+% for i = 1:n-1
+%   length_bmeis = length_bmeis + sqrt( (x{7}(i+1)-x{7}(i)).^2 + (y(i+1)-y(i)).^2) ;
+% end
+% len_bmeis(k,1)=length_bmeis;
+xm=1:numel(x{11}(fovea_x-420:fovea_x+420));
+numPoints = numel(xm);
+xx = xm .* xm;
+y=x{11}(fovea_x-420:fovea_x+420);
+yy = y .* y;
+xy = xm .* y;
+AA = [sum(xm),  sum(y),  numPoints;
+     sum(xy), sum(yy), sum(y);
+     sum(xx), sum(xy), sum(xm)];
+BB = [-sum(xx + yy) ;
+     -sum(xx .* y + yy .* y);
+     -sum(xx .* xm + xy .* y)];
+aa = AA \ BB;
+xCenter = -.5 * aa(1);
+yCenter = -.5 * aa(2);
+radius(k,1)  =  sqrt((aa(1) ^ 2 + aa(2) ^ 2) / 4 - aa(3));
+curv(k,1)=1./radius(k,1);
+
+ID(k,1)=convertCharsToStrings(sprintf('%s',currentfilename));
+set(0,'DefaultFigureVisible','off')
+display(sprintf('segmenting image %d of %d',k,numel(imagefiles)));
+end
+
+
+
+b=[mean_th std_th A drusen Pdrusen TR_mean TR_std NSR_mean NSR_std TR_fovea_mean TR_fovea_std NSR_fovea_mean NSR_fovea_std ...
+    Iiilm_mean Iiilm_var Irnfl_mean Irnfl_var Igcl_mean Igcl_var Iipl_mean Iipl_var Iinl_mean Iinl_var ... 
+    Ioplhfl_mean Ioplhfl_var Ibmeis_mean Ibmeis_var Iisos_mean Iisos_var Iibopr_mean Iibopr_var Iibrpe_mean Iibrpe_var ...
+    Iobrpe_mean Iobrpe_var S_ilm S_rnfl S_gcl S_ipl S_inl S_oplhfl S_bmeis S_isos S_ibopr S_ibrpe S_obrpe... 
+    K_ilm K_rnfl K_gcl K_ipl K_inl K_oplhfl K_bmeis K_isos K_ibopr K_ibrpe K_obrpe E_img mag_mean mag_var phase_mean phase_var curv radius lbp];
+
+
+
+
+
+
+
