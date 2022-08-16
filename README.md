@@ -43,4 +43,4 @@
 
 [2] Moradi, M., X. Du, T. Huan, and Y. Chen, Feasibility of the soft attention-based models for automatic segmentation of OCT kidney images. Biomedical Optics Express, 2022. 13(5): p. 2728-2738.
 
-[3] Huan, T., Y. Chen, X. Du, and J. Seddon, Ensemble learning for AMD prediction using retina OCT scans. Investigative Ophthalmology & Visual Science, 2022. 63(7): p. 732–F0460-732–F0460.
+[3] Moradi, M., Huan, T., Y. Chen, X. Du, and J. Seddon, Ensemble learning for AMD prediction using retina OCT scans. Investigative Ophthalmology & Visual Science, 2022. 63(7): p. 732–F0460-732–F0460.
